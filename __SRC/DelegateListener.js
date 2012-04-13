@@ -10,6 +10,9 @@
 
 "use strict";
 
+/**
+ * @constructor
+ */
 function DelegateListener(filter, callback) {
 	var thisObj = this;
 	if(!(thisObj instanceof DelegateListener))return new DelegateListener(filter, callback);
