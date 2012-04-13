@@ -1,6 +1,6 @@
 ;(function(global){
 "use strict";
-global["DelegateListener"] = function DelegateListener(filter, callback) {
+function DelegateListener(filter, callback) {
 	var thisObj = this;
 	if(!(thisObj instanceof DelegateListener))return new DelegateListener(filter, callback);
 	
@@ -51,4 +51,11 @@ DelegateListener.prototype.match = function(node, filter) {
 	}
 	if(typeof filter == "function")return filter(node);
 }
-}(window);
+
+if (typeof module !== "undefined" && module.exports) {
+	module.exports = DelegateListener
+} else if (typeof global !== "undefined") {
+	global["DelegateListener"] = DelegateListener
+}
+
+}(this);
