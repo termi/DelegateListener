@@ -1,5 +1,9 @@
 # DelegateListener
 
+## Dependencies
+`Element.prototype.matchesSelector` shim.
+It coudth be found in exstras/
+
 ## Example
 
 ```javascript
