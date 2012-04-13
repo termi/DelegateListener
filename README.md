@@ -2,7 +2,7 @@
 
 ## Dependencies
 `Element.prototype.matchesSelector` shim.
-It coudth be found in exstras/
+It coudth be found in https://gist.github.com/2369850
 
 ## Example
 

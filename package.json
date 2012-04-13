@@ -1,0 +1,6 @@
+{
+    "name": "DelegateListener", 
+    "version": "0.2.0",
+    "description": "delegate listener like jQuery.delegate, but with semo additional stuff", 
+    "author": "Termi <1+DelegateListener@h123.ru>"
+}
