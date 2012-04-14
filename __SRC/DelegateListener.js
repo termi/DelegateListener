@@ -69,7 +69,7 @@ DelegateListener.prototype.handleEvent = function(event) {
 		}
 			
 		event.target = elem;
-		if(event.target !== stopElement) {
+		if(event.target !== elem) {
 			delete event.target;
 			event.target = elem;
 		}
