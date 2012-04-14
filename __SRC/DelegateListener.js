@@ -46,7 +46,7 @@ DelegateListener.prototype.handleEvent = function(event) {
 		}
 		
 
-		result = this.callback.call(this.context || stopElement, event);
+		if(this.callback)result = this.callback.call(this.context || stopElement, event);
 	} while(result !== false && elem != stopElement && (elem = elem.parentNode));
 
 	return result;

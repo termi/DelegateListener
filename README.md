@@ -24,22 +24,21 @@ document.addEventListener("click", DelegateListener(
 //Using filter instead of callback
 var editorController = {
 	copy : function() {},
-	past : function() {},
+	paste : function() {},
 	handler : function(node) {
-    	swicth(node.getAttrubute("data-menu-event")) {
-    		case "copy":
-    			this.copy();
-    		breal;
-    		case "past":
-    			this.copy();
-    		breal;
-    		return false;
-    	}
+        var operation = node.getAttrubute("data-menu-event"),//"copy" or "paste" or null
+            function = operation && this[operation];
+
+        if(function) {
+            function.call(this, node);
+            return true;
+        }
     }
 }
 
 document.addEventListener("click", DelegateListener(
-	editorController.handler.bind(editorController)
+	editorController.handler.bind(editorController),
+    function(){return false}
 ));
 ```
 
