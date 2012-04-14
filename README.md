@@ -35,11 +35,23 @@ var editorController = {
         }
     }
 }
-
 document.addEventListener("click", DelegateListener(
 	editorController.handler.bind(editorController),
     function(){return false}
 ));
+
+//The magic
+document.addEventListener("dblclick", DelegateListener({
+    "data-is-menu" : void 0,              //filter only `node` that have `data-is-menu` attribute
+    ".controller" : function(selector) {  //if `node` match this `selector` -> call this function
+        console.log(this, selector);
+    },
+    ".data" : function(selector) {        //if `node` match this `selector` -> call this function
+        console.log(this, selector);
+    }
+}, function(e) {                          //called after one or more `selector` matched for one `node`
+    console.log(e, e.target, this);       //e.target === `node` that matched the `selector`
+}));
 ```
 
 ## Licence
