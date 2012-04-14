@@ -17,7 +17,7 @@ function DelegateListener(filter, callback) {
 	var thisObj = this;
 	if(!(thisObj instanceof DelegateListener))return new DelegateListener(filter, callback);
 	
-	if(callback.handleEvent) {
+	if(callback && callback.handleEvent) {
 		thisObj.context = callback;
 		callback = callback.handleEvent;
 	}
