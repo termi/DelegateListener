@@ -10,6 +10,35 @@
 
 "use strict";
 
+function _match(node, filter) {
+	switch(typeof filter) {
+		case "string"://CSS selector
+			return node.matchesSelector(filter);
+
+		case "object":
+			var match = true;
+			for(var i in filter)if(filter.hasOwnProperty(i)) {
+				if(!(match = _objectMatch(i, filter[i], node)))break;
+			}
+			return match;
+		break;
+
+		case "function"://Custom filter
+			return filter(node);
+	}
+}
+function _objectMatch(key, value, node) {
+	switch(typeof value) {
+		case "undefined"://Attributes filter
+			return node.hasAttribute(key);
+		case "string":   //Attributes filter
+			return node.getAttribute(key) === value;
+		case "function": //Filter as callback
+			if(_match(node, key))value.call(node, key);
+			return true;
+	}
+}
+
 /**
  * @constructor
  */
@@ -31,7 +60,7 @@ DelegateListener.prototype.handleEvent = function(event) {
 		result;
 
 	do {
-		if(elem.nodeType !== 1 || !this.match(elem, this.filter))continue;
+		if(elem.nodeType !== 1 || !_match(elem, this.filter))continue;
 
 		event.currentTarget = stopElement;
 		if(event.currentTarget !== stopElement) {
@@ -50,22 +79,6 @@ DelegateListener.prototype.handleEvent = function(event) {
 	} while(result !== false && elem != stopElement && (elem = elem.parentNode));
 
 	return result;
-}
-DelegateListener.prototype.match = function(node, filter) {
-	switch(typeof filter) {
-		case "string"://CSS selector
-			return node.matchesSelector(filter);
-
-		case "object"://Attributes filter
-			return Object.keys(filter).every(function(key) {
-				return filter[key] !== void 0 ?
-					node.getAttribute(key) === filter[key] :
-					node.hasAttribute(key);
-			})
-
-		case "function"://Custom filter
-			return filter(node);
-	}
 }
 
 if (typeof module !== "undefined" && module["exports"]) {
