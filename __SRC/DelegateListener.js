@@ -52,17 +52,20 @@ DelegateListener.prototype.handleEvent = function(event) {
 	return result;
 }
 DelegateListener.prototype.match = function(node, filter) {
-	if(typeof filter == "string") {//CSS selector
-		return node.matchesSelector(filter)
+	switch(typeof filter) {
+		case "string"://CSS selector
+			return node.matchesSelector(filter);
+
+		case "object"://Attributes filter
+			return Object.keys(filter).every(function(key) {
+				return filter[key] !== void 0 ?
+					node.getAttribute(key) === filter[key] :
+					node.hasAttribute(key);
+			})
+
+		case "function"://Custom filter
+			return filter(node);
 	}
-	if(typeof filter == "object") {//Attributes filter
-		return Object.keys(filter).every(function(key) {
-			return filter[key] !== void 0 ?
-				node.getAttribute(key) === filter[key] :
-				node.hasAttribute(key);
-		})
-	}
-	if(typeof filter == "function")return filter(node);
 }
 
 if (typeof module !== "undefined" && module["exports"]) {
