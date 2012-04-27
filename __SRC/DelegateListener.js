@@ -9,6 +9,7 @@
 ;(function(global){
 
 "use strict";
+var Object_defineProperty = Object.defineProperty;
 
 function _match(node, filter) {
 	switch(typeof filter) {
@@ -51,31 +52,27 @@ function DelegateListener(filter, callback) {
 		callback = callback.handleEvent;
 	}
 
-	thisObj.filter = filter;
+	thisObj._filter = filter;
 	thisObj.callback =callback;
 }
 DelegateListener.prototype.handleEvent = function(event) {
 	var elem = event.target,
 		stopElement = event.currentTarget,
 		result;
+		
+	if(Object_defineProperty) {//Cross-browser __event__ properties rebinding
+		try { delete event.target; delete event.currentTarget } catch(_e_) {}
+		Object_defineProperty(event, "currentTarget", {writable : true})
+		Object_defineProperty(event, "target", {writable : true})
+	}
 
 	do {
-		if(elem.nodeType !== 1 || !_match(elem, this.filter))continue;
+		if(elem.nodeType !== 1 || !_match(elem, this._filter))continue;
 
 		event.currentTarget = stopElement;
-		if(event.currentTarget !== stopElement) {
-			delete event.currentTarget;//IE < 9 throw exception here
-			event.currentTarget = stopElement;
-		}
-			
 		event.target = elem;
-		if(event.target !== elem) {
-			delete event.target;
-			event.target = elem;
-		}
-		
 
-		if(this.callback)result = this.callback.call(this.context || stopElement, event);
+		if(this.callback)result = this.callback.call(this.context || stopElement, event, this._filter);
 	} while(result !== false && elem != stopElement && (elem = elem.parentNode));
 
 	return result;

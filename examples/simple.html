@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  p { background:yellow; font-weight:bold; cursor:pointer; 
+      padding:5px; }
+  p.over { background: #ccc; }
+  span { color:red; }
+  div { background:gray }
+  </style>
+
+
+<!--[if lt IE 9]>
+<script src="https://raw.github.com/termi/ES5-DOM-SHIM/master/__COMPILE/a.ie8.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<script src="https://raw.github.com/termi/ES5-DOM-SHIM/master/__COMPILE/a.ielt8.js"></script>
+<![endif]-->
+<script src="https://raw.github.com/termi/ES5-DOM-SHIM/master/__COMPILE/a.js"></script>
+<script src="../__SRC/DelegateListener.js"></script>
+
+</head>
+<body>
+  <p>Click me!</p>
+
+  <span></span>
+<script>
+	var i = 0;
+    document.body.addEventListener("click", DelegateListener("p", function(e) {
+      e.target.insertAdjacentHTML("afterend", "<p>Another paragraph! #" + ++i + "</p><br><div>Not a paragraph!</div>");
+    }));
+</script>
+
+</body>
+</html>
