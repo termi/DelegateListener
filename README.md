@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/termi/DelegateListener.png)](http://travis-ci.org/termi/DelegateListener)
 # DelegateListener
 
 ## Dependencies
